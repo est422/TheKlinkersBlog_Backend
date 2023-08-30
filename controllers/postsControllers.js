@@ -74,3 +74,16 @@ module.exports.deletePost = async (req, res) => {
     });
 
 };
+
+//Delete post
+module.exports.deletePost = async (req, res) => {
+
+    const id = req.params.id;
+    const sql = 'DELETE FROM posts WHERE postId = ?';
+    db.query(sql, id, (err, result) => {
+        if(err) return res.status(400).json({ error: err.sqlMessage });
+        res.status(200).json(result);
+
+    });
+
+};
