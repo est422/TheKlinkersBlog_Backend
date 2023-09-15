@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const cookieParser = require('cookie-parser');
+
+router.use(cookieParser());
 // const { verifyToken } = require('../controllers/authentication');
 
 //Import users controller
@@ -12,6 +15,9 @@ router.get('/:id', usersController.getUser);
 
 //Post user
 router.post('/create', usersController.createUser);
+
+//Login user
+router.post('/login', usersController.loginUser);
 
 //Put user
 router.put('/update/:id', usersController.editUser);

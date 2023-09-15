@@ -9,6 +9,7 @@ async function main() {
 
     //PORT
     const PORT = process.env.PORT || port;
+    // const PORT = process.env.PORT
 //     const PORT = 8000;
 
     //CONNECT EXPRESS

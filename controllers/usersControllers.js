@@ -42,11 +42,11 @@ module.exports.loginUser = async (req, res) => {
         // if(!rows.length) return res.status(400).json({ error: "User does not exist" });
 
         // Check password
-        const validPassword = await bcrypt.compare(password, rows[0].Password);
+        const validPassword = await bcrypt.compare(password, rows[0].password);
         if(!validPassword) return res.status(400).json({ error: "Password is not valid" });
         
         // Create token
-        const token = await jwt.sign({ Id: rows[0].id}, TOKEN_SECRET);
+        const token = await jwt.sign({ Id: rows[0].id}, TOKEN_SECRET, {expiresIn: "15m"});
         // res.header('Authorization', token);
         // req.session.user = rows;
 
@@ -59,7 +59,7 @@ module.exports.loginUser = async (req, res) => {
 //Create user
 module.exports.createUser = async (req, res, next) => {
 
-    const {username, email, password} = req.body;
+    const {username, password} = req.body;
     //Check if user exists
     const sql = 'SELECT * FROM users WHERE username = ? ';
     db.query(sql, username, async (err, row) => {
@@ -78,7 +78,6 @@ module.exports.createUser = async (req, res, next) => {
             //Create a user
             const users = {
                 "username": username,
-                "email": email,
                 "password": hashedPassword
             }
 

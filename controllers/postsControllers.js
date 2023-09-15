@@ -31,6 +31,7 @@ module.exports.getAllPosts = async (req, res) => {
 module.exports.createPost = async (req, res, next) => {
 
     const {postTitle, postDescription} = req.body;
+    // console.log(req.body);
     
     //Create a post
     const post = {
@@ -51,6 +52,7 @@ module.exports.createPost = async (req, res, next) => {
 //Update post
 module.exports.editPost = async (req, res) => {
 
+    console.log(`reqBody ${req}`);
     const id = req.params.id;
     let post = req.body;
     const sql = 'UPDATE post SET ?  WHERE postId = ?';
@@ -66,7 +68,7 @@ module.exports.editPost = async (req, res) => {
 module.exports.deletePost = async (req, res) => {
 
     const id = req.params.id;
-    const sql = 'DELETE FROM posts WHERE postId = ?';
+    const sql = 'DELETE FROM post WHERE postId = ?';
     db.query(sql, id, (err, result) => {
         if(err) return res.status(400).json({ error: err.sqlMessage });
         res.status(200).json(result);
