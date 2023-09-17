@@ -1,18 +1,18 @@
 const mysql = require('mysql2');
 
 const config = {
-   host: 'localhost',
-    // host: 'sql11.freesqldatabase.com',
+//    host: 'localhost',
+    host: 'sql11.freemysqlhosting.net',
     // host: 'sql7.freemysqlhosting.net',
-    user: 'root',
-    // user: 'sql11592485',
+    // user: 'root',
+    user: 'sql11647072',
     // user: 'sql7604608',
     password: 'P@$sw0rd',
     // password: 'vVUNEWxAc4',
     // password: 'U5CyZcIQgA',
     // password: 'BqkmN6zj3a',
-    database: 'theklinkers_blog_db'
-    // database: 'sql11592485'
+    // database: 'theklinkers_blog_db'
+    database: 'KdtTVr9JSa'
     // database: 'sql7604608'
 };
 
