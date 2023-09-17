@@ -7,12 +7,12 @@ const config = {
     // user: 'root',
     user: 'sql11647072',
     // user: 'sql7604608',
-    password: 'P@$sw0rd',
-    // password: 'vVUNEWxAc4',
+    // password: 'P@$sw0rd',
+    password: 'KdtTVr9JSa',
     // password: 'U5CyZcIQgA',
     // password: 'BqkmN6zj3a',
     // database: 'theklinkers_blog_db'
-    database: 'KdtTVr9JSa'
+    database: 'sql11647072'
     // database: 'sql7604608'
 };
 
