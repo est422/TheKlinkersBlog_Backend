@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/connectDB');
 const { TOKEN_SECRET } = require('../config/default.json');
 
+
 //Get post by id
 module.exports.getPost = async (req, res) => {
 
@@ -36,19 +37,24 @@ module.exports.getAllPosts = async (req, res) => {
 };
 
 //Create post
-module.exports.createPost = async (req, res, next) => {
-
+module.exports.createPost = async (req, res) => {
+    
     try{
-        const {postTitle, postDescription, postCategory} = req.body;
-        const postedDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-        // console.log(req.body);
-        
+        // var readFile = Buffer.from(req.body.postImage, 'base64');
+        // const {postedBody} = req.body;
+        const today = new Date().toISOString().slice(0, 10);
+        const postImage = req.file.filename;
+        // const postedDate = today.getDay();
+        // console.log(today);
+        // console.log('filename', postImage);
+
         //Create a post
         const post = {
-            "postTitle": postTitle,
-            "postDescription": postDescription,
-            "postCategory": postCategory,
-            "postDate": postedDate
+            "postImage": postImage,
+            "postTitle": req.body.postTitle,
+            "postDescription": req.body.postDescription,
+            "postCategory": req.body.postCategory,
+            "postDate": today
         }
 
         //Create post
