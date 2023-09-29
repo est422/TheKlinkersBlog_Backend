@@ -20,6 +20,7 @@ module.exports.getPost = async (req, res) => {
     }
 
 };
+
 //Get all posts
 module.exports.getAllPosts = async (req, res) => {
 
@@ -29,6 +30,23 @@ module.exports.getAllPosts = async (req, res) => {
             if(err) return res.status(400).json({ error: err.sqlMessage });
             return res.status(200).json(result);
 
+        });
+    } catch(e) {
+        return res.status(500).json({error: e});
+    }
+
+};
+
+//Get post by category
+module.exports.getPostsByCategory = async (req, res) => {
+
+    try{
+        // console.log(req.params);
+        const postCategory = req.params.category;
+        const sql = 'SELECT * FROM post WHERE postCategory = ?';
+        db.query(sql, postCategory, (err, result) => {
+            if(err) return res.status(400).json({ error: err.sqlMessage });
+            return res.status(200).json(result);
         });
     } catch(e) {
         return res.status(500).json({error: e});

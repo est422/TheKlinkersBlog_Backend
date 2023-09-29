@@ -27,6 +27,9 @@ router.get('/', postsControllers.getAllPosts);
 //Get post by id
 router.get('/:id', postsControllers.getPost);
 
+//Get post by category
+router.get('/getPostsByCategory/:category', postsControllers.getPostsByCategory);
+
 //Post post
 router.post('/create', upload.single('postImage'), postsControllers.createPost);
 
