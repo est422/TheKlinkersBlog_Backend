@@ -72,7 +72,9 @@ module.exports.createPost = async (req, res) => {
             "postTitle": req.body.postTitle,
             "postDescription": req.body.postDescription,
             "postCategory": req.body.postCategory,
-            "postDate": today
+            "postDate": today,
+            "postLikes": 0,
+            "postDislikes": 0
         }
 
         //Create post
@@ -92,15 +94,70 @@ module.exports.createPost = async (req, res) => {
 module.exports.editPost = async (req, res) => {
 
     try{
-        // console.log(`reqBody ${req}`);
+        // console.log(`reqBody ${req.body}`);
         const id = req.params.id;
-        let post = req.body;
+        // let post = {};
+        // const postImage = req.file.filename;
+        // post = {...postImage, ...req.body}
         const sql = 'UPDATE post SET ?  WHERE postId = ?';
         db.query(sql, [req.body, id], (err, result) => {
             if(err) return res.status(400).json({ error: err.sqlMessage });
             res.status(200).json(result);
 
         });
+    } catch(e) {
+        return res.status(500).json({error: e});
+    }
+
+};
+
+//Update post like
+module.exports.editPostLike = async (req, res) => {
+
+    try{
+        // console.log(`reqBody ${req}`);
+        const id = req.params.id;
+        // let postLike = req.body;
+        const getSql = 'SELECT * FROM post WHERE postId = ?';
+        db.query(getSql, id, (err, result) => {
+            if(err) return res.status(400).json({ error: err.sqlMessage });
+            let postLikes = parseInt(result[0].postLikes);
+            postLikes = + 1
+            console.log(postLikes);
+            const sql = 'UPDATE post SET postLikes = ? WHERE postId = ?';
+            db.query(sql, [postLikes, id], (err, result) => {
+                if(err) return res.status(400).json({ error: err.sqlMessage });
+                res.status(200).json(result);
+
+            });
+        });
+        
+    } catch(e) {
+        return res.status(500).json({error: e});
+    }
+
+};
+
+//Update post dislike
+module.exports.editPostDislike = async (req, res) => {
+
+    try{
+        // console.log(`reqBody ${req.body}`);
+        const id = req.params.id;
+        // let postDislike = req.body;
+        const getSql = 'SELECT * FROM post WHERE postId = ?';
+        db.query(getSql, id, (err, result) => {
+            if(err) return res.status(400).json({ error: err.sqlMessage });
+            let postDislikes = result[0].postDislikes;
+            postDislikes = + 1;
+            const sql = 'UPDATE post SET postDislikes = ?  WHERE postId = ?';
+            db.query(sql, [postDislikes, id], (err, result) => {
+                if(err) return res.status(400).json({ error: err.sqlMessage });
+                res.status(200).json(result);
+
+            });
+        });
+        
     } catch(e) {
         return res.status(500).json({error: e});
     }

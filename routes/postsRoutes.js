@@ -3,7 +3,7 @@ const router = require('express').Router();
 const multer = require('multer');
 const MIME_TYPES = {
   "image/jpg": "jpg",
-  "image/jpeg": "jpg",
+  "image/jpeg": "jpeg",
   "image/png": "png",
   "image/gif": "gif"
 };
@@ -35,6 +35,12 @@ router.post('/create', upload.single('postImage'), postsControllers.createPost);
 
 //Put post
 router.put('/update/:id', postsControllers.editPost);
+
+//Put post likes
+router.put('/update/like/:id', postsControllers.editPostLike);
+
+//Put post dislikes
+router.put('/update/dislike/:id', postsControllers.editPostDislike);
 
 //Delete post
 router.delete('/delete/:id', postsControllers.deletePost);
