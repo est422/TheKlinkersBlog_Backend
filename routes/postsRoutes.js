@@ -1,6 +1,7 @@
 const router = require('express').Router();
 // const { verifyToken } = require('../controllers/authentication');
 const multer = require('multer');
+const { verifyToken } = require('../controllers/authorization');
 const MIME_TYPES = {
   "image/jpg": "jpg",
   "image/jpeg": "jpeg",
@@ -31,10 +32,10 @@ router.get('/:id', postsControllers.getPost);
 router.get('/getPostsByCategory/:category', postsControllers.getPostsByCategory);
 
 //Post post
-router.post('/create', upload.single('postImage'), postsControllers.createPost);
+router.post('/create', verifyToken, upload.single('postImage'), postsControllers.createPost);
 
 //Put post
-router.put('/update/:id', postsControllers.editPost);
+router.put('/update/:id', verifyToken, postsControllers.editPost);
 
 //Put post likes
 router.put('/update/like/:id', postsControllers.editPostLike);

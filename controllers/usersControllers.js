@@ -55,10 +55,12 @@ module.exports.loginUser = async (req, res) => {
             if(!validPassword) return res.status(400).json({ error: "Password is not valid" });
             
             // Create token
-            const token = await jwt.sign({ Id: rows[0].id}, TOKEN_SECRET, {expiresIn: "15m"});
+            const token = jwt.sign({ Id: rows[0].id }, TOKEN_SECRET, { expiresIn: "15m" });
             // res.header('Authorization', token);
             // req.session.user = rows;
 
+            // res.cookie('token', token);
+            // return res.status(200).json({Success: 'Success'});
             return res.status(200).json(token);
 
         });

@@ -25,7 +25,7 @@ module.exports.getPost = async (req, res) => {
 module.exports.getAllPosts = async (req, res) => {
 
     try{
-        const sql = 'SELECT * FROM post';
+        const sql = 'SELECT * FROM post ORDER BY postDate DESC';
         db.query(sql, (err, result) => {
             if(err) return res.status(400).json({ error: err.sqlMessage });
             return res.status(200).json(result);
