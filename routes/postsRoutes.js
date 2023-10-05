@@ -28,6 +28,9 @@ router.get('/', postsControllers.getAllPosts);
 //Get post by id
 router.get('/:id', postsControllers.getPost);
 
+//Get trending post
+router.get('/trending/posts', postsControllers.getTrendingPosts);
+
 //Get post by category
 router.get('/getPostsByCategory/:category', postsControllers.getPostsByCategory);
 

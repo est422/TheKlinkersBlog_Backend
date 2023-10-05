@@ -37,6 +37,25 @@ module.exports.getAllPosts = async (req, res) => {
 
 };
 
+//Get trending posts
+module.exports.getTrendingPosts = async (req, res) => {
+
+    try{
+        // const postLikes = 12;
+        const sql = 'SELECT * FROM post WHERE postLikes >= 1';
+        // console.log(sql);
+        db.query(sql, (err, result) => {
+            if(err) return res.status(400).json({ error: err.sqlMessage });
+            return res.status(200).json(result);
+            
+
+        });
+    } catch(e) {
+        return res.status(500).json({error: e});
+    }
+
+};
+
 //Get post by category
 module.exports.getPostsByCategory = async (req, res) => {
 
@@ -117,20 +136,12 @@ module.exports.editPostLike = async (req, res) => {
     try{
         // console.log(`reqBody ${req}`);
         const id = req.params.id;
-        // let postLike = req.body;
-        const getSql = 'SELECT * FROM post WHERE postId = ?';
-        db.query(getSql, id, (err, result) => {
-            if(err) return res.status(400).json({ error: err.sqlMessage });
-            let postLikes = parseInt(result[0].postLikes);
-            postLikes = + 1
-            console.log(postLikes);
-            const sql = 'UPDATE post SET postLikes = ? WHERE postId = ?';
-            db.query(sql, [postLikes, id], (err, result) => {
+        const sql = 'UPDATE post SET postLikes = postLikes + 1 WHERE postId = ?';
+            db.query(sql, id, (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
                 res.status(200).json(result);
 
             });
-        });
         
     } catch(e) {
         return res.status(500).json({error: e});
@@ -144,19 +155,13 @@ module.exports.editPostDislike = async (req, res) => {
     try{
         // console.log(`reqBody ${req.body}`);
         const id = req.params.id;
-        // let postDislike = req.body;
-        const getSql = 'SELECT * FROM post WHERE postId = ?';
-        db.query(getSql, id, (err, result) => {
-            if(err) return res.status(400).json({ error: err.sqlMessage });
-            let postDislikes = result[0].postDislikes;
-            postDislikes = + 1;
-            const sql = 'UPDATE post SET postDislikes = ?  WHERE postId = ?';
-            db.query(sql, [postDislikes, id], (err, result) => {
+        const sql = 'UPDATE post SET postDislikes = postDislikes + 1  WHERE postId = ?';
+            db.query(sql, id, (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
                 res.status(200).json(result);
+                // console.log(result[0]);
 
             });
-        });
         
     } catch(e) {
         return res.status(500).json({error: e});
