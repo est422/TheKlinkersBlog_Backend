@@ -116,14 +116,35 @@ module.exports.editPost = async (req, res) => {
         // console.log(`reqBody ${req.body}`);
         const id = req.params.id;
         // let post = {};
-        // const postImage = req.file.filename;
-        // post = {...postImage, ...req.body}
-        const sql = 'UPDATE post SET ?  WHERE postId = ?';
-        db.query(sql, [req.body, id], (err, result) => {
-            if(err) return res.status(400).json({ error: err.sqlMessage });
-            res.status(200).json(result);
+        if(req.file){
+            const postImage = req.file.filename;
+            post = {postImage: postImage, ...req.body}
+            console.log(req.file);
+            const sql = 'UPDATE post SET ?  WHERE postId = ?';
+            db.query(sql, [post, id], (err, result) => {
+                if(err) return res.status(400).json({ error: err.sqlMessage });
+                res.status(200).json(result);
 
-        });
+            });
+        } else {
+            // const postImage = req.file.filename;
+            // const post = req.body;
+            console.log("else", req.body);
+            const updatePost = {
+                "postTitle": req.body.postTitle,
+                "postDescription": req.body.postDescription,
+                "postCategory": req.body.postCategory,
+            }
+            console.log("else", updatePost);
+            const sql = 'UPDATE post SET  ?  WHERE postId = ?';
+            db.query(sql, [updatePost, id], (err, result) => {
+                if(err) return res.status(400).json({ error: err.sqlMessage });
+                res.status(200).json(result);
+    
+            });
+            
+        }
+        
     } catch(e) {
         return res.status(500).json({error: e});
     }

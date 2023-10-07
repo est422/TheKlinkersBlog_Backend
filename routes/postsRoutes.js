@@ -1,6 +1,7 @@
 const router = require('express').Router();
 // const { verifyToken } = require('../controllers/authentication');
 const multer = require('multer');
+const fs = require('fs');
 const { verifyToken } = require('../controllers/authorization');
 const MIME_TYPES = {
   "image/jpg": "jpg",
@@ -9,12 +10,24 @@ const MIME_TYPES = {
   "image/gif": "gif"
 };
 
+// const fileFilter = (req, file, cb) => {
+//   fs.exists('images' + file.originalname, function(exists) {
+//     let filename;
+//     if (exists) {
+//         filename = Date.now() + '.' + file.originalname;
+//     } else {
+//         filename = file.originalname;
+//     } 
+//     cb(null, filename)
+// });
+// }
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'images')
     },
     filename: (req, file, cb) => {
-      cb(null, file.originalname)
+      cb(null, file.originalname + '.' + Date.now())
     }
   });
   
@@ -38,7 +51,7 @@ router.get('/getPostsByCategory/:category', postsControllers.getPostsByCategory)
 router.post('/create', verifyToken, upload.single('postImage'), postsControllers.createPost);
 
 //Put post
-router.put('/update/:id', verifyToken, postsControllers.editPost);
+router.put('/update/:id', verifyToken, upload.single('postImage'), postsControllers.editPost);
 
 //Put post likes
 router.put('/update/like/:id', postsControllers.editPostLike);
