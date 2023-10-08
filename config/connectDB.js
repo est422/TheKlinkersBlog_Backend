@@ -13,10 +13,10 @@ const config = {
 };
 
 //Create connection
-const db = mysql.createConnection(config);
+const db = mysql.createPool(config);
 
 //Connect
-db.connect(function(err){
+db.getConnection(function(err){
     if(err) throw err;
     console.log("DB Connected");
 });   

@@ -13,7 +13,7 @@ async function main() {
 //     const PORT = 8000;
 
     //CONNECT EXPRESS
-    await app.listen(PORT, () => console.log('Server Running on:', PORT));
+    app.listen(PORT, () => console.log('Server Running on:', PORT));
 }
 
 main();
