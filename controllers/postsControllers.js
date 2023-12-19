@@ -82,7 +82,7 @@ module.exports.createPost = async (req, res) => {
         const today = new Date().toISOString().slice(0, 10);
         const postImage = req.file.filename;
         // const postedDate = today.getDay();
-        // console.log(today);
+        // console.log(req.body);
         // console.log('filename', postImage);
 
         //Create a post
@@ -92,6 +92,7 @@ module.exports.createPost = async (req, res) => {
             "postDescription": req.body.postDescription,
             "postCategory": req.body.postCategory,
             "postDate": today,
+            // "postDate": req.body.postDate,
             "postLikes": 0,
             "postDislikes": 0
         }
@@ -100,7 +101,13 @@ module.exports.createPost = async (req, res) => {
         db.query("INSERT INTO post SET ?", post, async (err, result) => {
             if(err) return res.status(400).json({ error: err.sqlMessage });
 
-            return res.status(200).json(result);
+            const sql = 'SELECT * FROM post WHERE postId = ?';
+            db.query(sql, result.insertId, (err, result) => {
+                if(err) return res.status(400).json({ error: err.sqlMessage });
+                return res.status(200).json(result);
+            });
+            // console.log(result);
+            // return res.status(200).json(result);
 
         });
     } catch(e){
@@ -123,7 +130,11 @@ module.exports.editPost = async (req, res) => {
             const sql = 'UPDATE post SET ?  WHERE postId = ?';
             db.query(sql, [post, id], (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
-                res.status(200).json(result);
+                const sql = 'SELECT * FROM post WHERE postId = ?';
+                db.query(sql, id, (err, result) => {
+                    if(err) return res.status(400).json({ error: err.sqlMessage });
+                    return res.status(200).json(result);
+                });
 
             });
         } else {
@@ -139,7 +150,11 @@ module.exports.editPost = async (req, res) => {
             const sql = 'UPDATE post SET  ?  WHERE postId = ?';
             db.query(sql, [updatePost, id], (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
-                res.status(200).json(result);
+                const sql = 'SELECT * FROM post WHERE postId = ?';
+                db.query(sql, id, (err, result) => {
+                    if(err) return res.status(400).json({ error: err.sqlMessage });
+                    return res.status(200).json(result);
+                });
     
             });
             
@@ -160,7 +175,11 @@ module.exports.editPostLike = async (req, res) => {
         const sql = 'UPDATE post SET postLikes = postLikes + 1 WHERE postId = ?';
             db.query(sql, id, (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
-                res.status(200).json(result);
+                const sql = 'SELECT * FROM post WHERE postId = ?';
+                db.query(sql, id, (err, result) => {
+                    if(err) return res.status(400).json({ error: err.sqlMessage });
+                    return res.status(200).json(result);
+                });
 
             });
         
@@ -179,7 +198,11 @@ module.exports.editPostDislike = async (req, res) => {
         const sql = 'UPDATE post SET postDislikes = postDislikes + 1  WHERE postId = ?';
             db.query(sql, id, (err, result) => {
                 if(err) return res.status(400).json({ error: err.sqlMessage });
-                res.status(200).json(result);
+                const sql = 'SELECT * FROM post WHERE postId = ?';
+                db.query(sql, id, (err, result) => {
+                    if(err) return res.status(400).json({ error: err.sqlMessage });
+                    return res.status(200).json(result);
+                });
                 // console.log(result[0]);
 
             });
@@ -198,7 +221,7 @@ module.exports.deletePost = async (req, res) => {
         const sql = 'DELETE FROM post WHERE postId = ?';
         db.query(sql, id, (err, result) => {
             if(err) return res.status(400).json({ error: err.sqlMessage });
-            res.status(200).json(result);
+            res.status(200).json(id);
 
         });
     } catch(e) {

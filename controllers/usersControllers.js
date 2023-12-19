@@ -40,7 +40,7 @@ module.exports.loginUser = async (req, res) => {
 
     try{
         const {username, password} = req.body;
-
+        const expirationTime = Math.floor(Date.now() / 1000) + 15 * 60;
         //Check if username exists
         const sql = 'SELECT * FROM users WHERE username = ?';
         db.query(sql, username, async (err, rows) => {
@@ -55,7 +55,7 @@ module.exports.loginUser = async (req, res) => {
             if(!validPassword) return res.status(400).json({ error: "Password is not valid" });
             
             // Create token
-            const token = jwt.sign({ Id: rows[0].id }, TOKEN_SECRET, { expiresIn: "15m" });
+            const token = jwt.sign({ Id: rows[0].id }, TOKEN_SECRET, { expiresIn: expirationTime });
             // res.header('Authorization', token);
             // req.session.user = rows;
 
