@@ -14,15 +14,15 @@ router.get("/", usersController.getAllUsers);
 router.get("/:id", usersController.getUser);
 
 //Post user
-router.post("/create", verifyToken, usersController.createUser);
+router.post("/create", usersController.createUser);
 
 //Login user
 router.post("/login", usersController.loginUser);
 
 //Put user
-router.put("/update/:id", verifyToken, usersController.editUser);
+router.put("/update/:id", usersController.editUser);
 
 //Delete user
-router.delete("/delete/:id", verifyToken, usersController.deleteUser);
+router.delete("/delete/:id", usersController.deleteUser);
 
 module.exports = router;
