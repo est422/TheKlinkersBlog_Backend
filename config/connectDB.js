@@ -2,13 +2,15 @@ const mysql = require("mysql2");
 
 const config = {
   // host: 'localhost',
-  host: "sql11.freemysqlhosting.net",
+  host: "SG-blog-db-10208-mysql-master.servers.mongodirector.com",
   // user: 'root',
-  user: "sql11694909",
+  // user: "sgroot",
+  user: "admin",
   // password: 'P@$sw0rd',
-  password: "9TUuR7E1hr",
+  // password: "L24gGy8FJ5$3eYFT",
+  password: "P@ssw(0)rd",
   // database: 'theklinkers_blog_db'
-  database: "sql11694909",
+  database: "blog"
 };
 
 //Create connection
